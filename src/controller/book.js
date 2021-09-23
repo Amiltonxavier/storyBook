@@ -1,6 +1,6 @@
 //const { json } = require("express");
 const { response } = require("express");
-const Book = require("../model/book");
+import Book from "../model/book";
 
 
 

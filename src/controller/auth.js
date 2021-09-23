@@ -1,6 +1,6 @@
-const User = require("../model/user");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
+import User from "../model/user";
+import bcrypt from "bcrypt";
+import jwt from"jsonwebtoken"
 
 export const signin = async function (req, res) {
     const { email, password } = req.body;

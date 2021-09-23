@@ -1,33 +1,12 @@
 import Express from "express";
 import { registerBook , deleteBook, searchByName, listById, listallfiles, updatebook} from "../controller/book";
-import path from "path";
-import multer from "multer";
+import { upload } from "../controller/multer";
+//import multer from "multer";
 import { requireSignin } from "../controller/auth";
 
 const router = Express.Router();
 
-const multerFilter = (req, file, cb) => {
-    if (file.mimetype.split("/")[1] === "pdf") {
-      cb(null, true);
-    } else {
-      cb(new Error("Not a PDF File!!"), false);
-    }
-};
-  
-const multerStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, path.resolve(__dirname, "..", "tmp", "uploads"));
-    },
-    filename: (req, file, cb) => {
-      const ext = file.mimetype.split("/")[1];
-      cb(null, `admin-${file.fieldname}-${Date.now()}.${ext}`);
-    },
-});
-  
-const upload = multer({
-    storage: multerStorage,
-    fileFilter: multerFilter,
-  });
+
 
 router.post("/createbook", requireSignin, upload.single('filename'), registerBook);
 router.post("/searchByName", requireSignin, searchByName);
