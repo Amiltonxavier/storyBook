@@ -1,10 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const { createUser,  requireSignin, listUser, deleteUser, signin } = require("../controller/user")
+import Express from "express";
+import { createUser, listUser, deleteUser } from "../controller/user";
+import { signin, requireSignin } from "../controller/auth";
+import validateUser  from "../validator/user";
+import { ValidateMessenngerError } from "../validator/errors";
+const router = Express.Router();
+//Express.Router
 
-router.post("/create-user", createUser)
+//User Router
+router.post("/create-user", validateUser, ValidateMessenngerError, createUser)
 router.get("/list-user-info/:id", requireSignin, listUser)
 router.delete("/delete-user-account/:id", requireSignin, deleteUser);
 router.post("/auth-user", signin)
 
-module.exports = router;
+export default  router;

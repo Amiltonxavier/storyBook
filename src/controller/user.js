@@ -1,8 +1,8 @@
-const User = require("../model/user");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken")
+import User from "../model/user";
+import bcrypt from "bcrypt";
+//import jwt from "jsonwebtoken";
 
-exports.createUser = async function (req, res) {
+export const createUser = async function (req, res) {
 
     const { username, email, password } = req.body;
     const existEmail = await User.findOne({ email: email })
@@ -31,7 +31,7 @@ exports.createUser = async function (req, res) {
         }
     })
 }
-exports.listUser = async function (req, res) {
+export const listUser = async function (req, res) {
     const id = req.params.id;
 
     await User.findOne({ _id: id }, (err, data) => {
@@ -43,7 +43,7 @@ exports.listUser = async function (req, res) {
     })
 }
 
-exports.deleteUser = async function (req, res) {
+export const deleteUser = async function (req, res) {
     const id = req.params.id;
     if (!id) {
         return res.status(400).json({error: "Problema com o identificador"})
@@ -59,44 +59,3 @@ exports.deleteUser = async function (req, res) {
 }
 
 
-exports.signin = async function (req, res) {
-    const { email, password } = req.body;
-
-    User.findOne({ email }, async function (err, user) {
-        if (err || !user) {
-            return res.status(400).json({ error: "Verifique por favor o seu Email" })
-        }
-
-        const verifyPassword = await bcrypt.compare(password, user.password);
-
-        if (!verifyPassword) {
-            return res.status(401).json({ error: "Verifique a sua Senha Por favor" });
-        }
-
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-
-        res.cookie("t", token, { expire: new Date() + 999 });
-
-        const { _id, name, email } = user;
-        return res.json({ token, user: { _id, name, email } });
-
-    });
-    
-}
-
-exports.requireSignin = (req, res, next) => {
-    if (!req.headers["authorization"])
-        return next(res.status(401).send("Não tem permissão para avançar"))
-        const authHeader = req.headers["authorization"];
-        const beaderToken = authHeader.split(" ");
-        const token = beaderToken[1];
-        jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
-            if (err) {
-                return res.status(401).json({ error: err });
-                next();
-            }
-    
-            req.payload = payload;
-            next();
-        })
-};

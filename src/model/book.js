@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 const { ObjectId } = Schema
@@ -34,4 +34,5 @@ const BookSchema = new Schema({
 )
 
 
-module.exports = mongoose.model("Book", BookSchema);
+const Book = mongoose.model("Book", BookSchema);
+export default Book;

@@ -4,7 +4,7 @@ const Book = require("../model/book");
 
 
 
-exports.searchByName = async function (req, res) {
+export const searchByName = async function (req, res) {
     const themebooks = req.body.themebook;
     console.log(req.body.themebook)
     if (!themebooks) {
@@ -21,7 +21,7 @@ exports.searchByName = async function (req, res) {
 }
 
 
-exports.listallfiles = async function (req, res) {
+export const listallfiles = async function (req, res) {
    await  Book.find((err, data) => {
        if (err) {
            return res.status(400).json({ error: err });
@@ -31,7 +31,7 @@ exports.listallfiles = async function (req, res) {
     })
 }
 
-exports.listById = async function (req, res) {
+export const listById = async function (req, res) {
     const id = req.params.id;
 
     if (!id) {
@@ -47,8 +47,7 @@ exports.listById = async function (req, res) {
     })
 }
 
-exports.registerBook = async function (req, res) {
-    
+export const registerBook = async function (req, res) {
 
     const book = new Book({
         themebook: req.body.themebook,
@@ -69,7 +68,7 @@ exports.registerBook = async function (req, res) {
     })
 }
 
-exports.deleteBook = async function (req, res) {
+export const deleteBook = async function (req, res) {
     const id = req.params.id;
 
     if (!req.params.id) {
@@ -88,7 +87,7 @@ exports.deleteBook = async function (req, res) {
 }
 
 
-exports.updatebook = async function (req, res) {
+export const updatebook = async function (req, res) {
     
     const { themebook, author, year, specialty } = req.body;
     

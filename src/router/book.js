@@ -1,10 +1,10 @@
-const express = require("express");
-const { registerBook , deleteBook, searchByName, listById, listallfiles, updatebook} = require("../controller/book");
-const path = require("path");
-const multer = require("multer");
-const { requireSignin } = require("../controller/user");
+import Express from "express";
+import { registerBook , deleteBook, searchByName, listById, listallfiles, updatebook} from "../controller/book";
+import path from "path";
+import multer from "multer";
+import { requireSignin } from "../controller/auth";
 
-const router = express.Router();
+const router = Express.Router();
 
 const multerFilter = (req, file, cb) => {
     if (file.mimetype.split("/")[1] === "pdf") {
@@ -38,4 +38,4 @@ router.put("/updata-book/:id", requireSignin, upload.single('filename'), updateb
 
 
 
-module.exports = router;
+export default  router;

@@ -1,12 +1,11 @@
-const express = require("express");
-const app = express();
-const dotenv = require('dotenv');
-const routerBook = require("./router/book.js");
-const routeBook = require("./router/user.js");
-const mongoose = require("mongoose");
-
+import Express from "express";
+import dotenv from 'dotenv';
+import routerBook from "./router/book.js";
+import routeBook from "./router/user.js";
+import mongoose from "mongoose";
+const app = Express();
 dotenv.config();
-app.use(express.json());
+app.use(Express.json());
 
 
 app.use("/api", routerBook);
